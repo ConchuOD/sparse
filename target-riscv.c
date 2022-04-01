@@ -52,7 +52,7 @@ static void parse_march_riscv(const char *arg)
 		size_t len = strlen(pat);
 
 		if (!strncmp(arg, pat, len)) {
-			riscv_flags |= basic_sets[i].flags;
+			riscv_flags = basic_sets[i].flags;
 			arg += len;
 			goto ext;
 		}
