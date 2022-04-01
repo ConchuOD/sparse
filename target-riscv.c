@@ -36,8 +36,9 @@ static void parse_march_riscv(const char *arg)
 	}, extensions[] = {
 		{ "m",		RISCV_MUL|RISCV_DIV },
 		{ "a",		RISCV_ATOMIC },
-		{ "f",		RISCV_FLOAT|RISCV_FDIV|RISCV_ZICSR },
-		{ "d",		RISCV_DOUBLE|RISCV_FDIV|RISCV_ZICSR },
+		{ "f",		RISCV_FLOAT|RISCV_FDIV },
+		{ "d",		RISCV_DOUBLE|RISCV_FDIV },
+		{ "g",		RISCV_GENERIC },
 		{ "c",		RISCV_COMP },
 		{ "_zicsr",	RISCV_ZICSR },
 		{ "_zifencei",	RISCV_ZIFENCEI },
