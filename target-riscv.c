@@ -59,7 +59,15 @@ static void parse_march_riscv(const char *arg)
 	}
 
 unknown:
-	fprintf(stderr, "WARNING: invalid argument to '-march': '%s'\n", arg);
+	/*
+	 * This behaves like do_warn() / do_error(), but we don't have a
+	 * position so it's just inline here.
+	 */
+	fflush(stdout);
+	fprintf(stderr, "%s: invalid argument to '-march': '%s'\n",
+		Wsparse_error == FLAG_ON ? "error" : "warning", arg);
+	if (Wsparse_error == FLAG_ON)
+		has_error |= ERROR_CURR_PHASE;
 	return;
 
 ext:

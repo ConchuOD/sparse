@@ -125,6 +125,11 @@ enum phase {
 #define	PASS_OPTIM		(1UL << PASS__OPTIM)
 #define	PASS_FINAL		(1UL << PASS__FINAL)
 
+enum flag_type {
+	FLAG_OFF,
+	FLAG_ON,
+	FLAG_FORCE_OFF,
+};
 
 extern void add_pre_buffer(const char *fmt, ...) FORMAT_ATTR(1);
 extern void predefine(const char *name, int weak, const char *fmt, ...) FORMAT_ATTR(3);

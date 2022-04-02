@@ -23,12 +23,6 @@
 # define __GNUC_PATCHLEVEL__ 0
 #endif
 
-enum flag_type {
-	FLAG_OFF,
-	FLAG_ON,
-	FLAG_FORCE_OFF
-};
-
 int die_if_error = 0;
 int do_output = 1;
 int gcc_major = __GNUC__;
