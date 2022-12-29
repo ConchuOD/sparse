@@ -5,20 +5,22 @@
 #include <string.h>
 #include <stdio.h>
 
-#define RISCV_32BIT	(1 << 0)
-#define RISCV_64BIT	(1 << 1)
-#define RISCV_MUL	(1 << 2)
-#define RISCV_DIV	(1 << 3)
-#define RISCV_ATOMIC	(1 << 4)
-#define RISCV_FLOAT	(1 << 5)
-#define RISCV_DOUBLE	(1 << 6)
-#define RISCV_FDIV	(1 << 7)
-#define RISCV_COMP	(1 << 8)
-#define RISCV_EMBD	(1 << 9)
-#define RISCV_FPU	(RISCV_FLOAT|RISCV_DOUBLE|RISCV_FDIV)
-#define RISCV_GENERIC	(RISCV_MUL|RISCV_DIV|RISCV_ATOMIC|RISCV_FPU)
-#define RISCV_ZICSR	(1 << 10)
-#define RISCV_ZIFENCEI	(1 << 11)
+#define RISCV_32BIT		(1 << 0)
+#define RISCV_64BIT		(1 << 1)
+#define RISCV_MUL		(1 << 2)
+#define RISCV_DIV		(1 << 3)
+#define RISCV_ATOMIC		(1 << 4)
+#define RISCV_FLOAT		(1 << 5)
+#define RISCV_DOUBLE		(1 << 6)
+#define RISCV_FDIV		(1 << 7)
+#define RISCV_COMP		(1 << 8)
+#define RISCV_EMBD		(1 << 9)
+#define RISCV_FPU		(RISCV_FLOAT|RISCV_DOUBLE|RISCV_FDIV)
+#define RISCV_GENERIC		(RISCV_MUL|RISCV_DIV|RISCV_ATOMIC|RISCV_FPU)
+#define RISCV_ZICSR		(1 << 10)
+#define RISCV_ZIFENCEI		(1 << 11)
+#define RISCV_ZICBOM		(1 << 12)
+#define RISCV_ZIHINTPAUSE	(1 << 13)
 
 static unsigned int riscv_flags;
 
@@ -34,13 +36,15 @@ static void parse_march_riscv(const char *arg)
 		{ "rv64i",	RISCV_64BIT },
 		{ "rv64g",	RISCV_64BIT|RISCV_GENERIC },
 	}, extensions[] = {
-		{ "m",		RISCV_MUL|RISCV_DIV },
-		{ "a",		RISCV_ATOMIC },
-		{ "f",		RISCV_FLOAT|RISCV_FDIV|RISCV_ZICSR },
-		{ "d",		RISCV_DOUBLE|RISCV_FDIV|RISCV_ZICSR },
-		{ "c",		RISCV_COMP },
-		{ "_zicsr",	RISCV_ZICSR },
-		{ "_zifencei",	RISCV_ZIFENCEI },
+		{ "m",			RISCV_MUL|RISCV_DIV },
+		{ "a",			RISCV_ATOMIC },
+		{ "f",			RISCV_FLOAT|RISCV_FDIV|RISCV_ZICSR },
+		{ "d",			RISCV_DOUBLE|RISCV_FDIV|RISCV_ZICSR },
+		{ "c",			RISCV_COMP },
+		{ "_zicsr",		RISCV_ZICSR },
+		{ "_zifencei",		RISCV_ZIFENCEI },
+		{ "_zicbom",		RISCV_ZICBOM },
+		{ "_zihintpause",	RISCV_ZIHINTPAUSE },
 	};
 	int i;
 
@@ -139,6 +143,10 @@ static void predefine_riscv(const struct target *self)
 		predefine("__riscv_zicsr", 1, "1");
 	if (riscv_flags & RISCV_ZIFENCEI)
 		predefine("__riscv_zifencei", 1, "1");
+	if (riscv_flags & RISCV_ZICBOM)
+		predefine("__riscv_zicbom", 1, "1");
+	if (riscv_flags & RISCV_ZIHINTPAUSE)
+		predefine("__riscv_zihintpause", 1, "1");
 
 	if (cmodel)
 		predefine_strong("__riscv_cmodel_%s", cmodel);
